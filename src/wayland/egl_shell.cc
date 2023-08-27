@@ -15,6 +15,8 @@ EglShell::EglShell(wl_display *display)
       m_egl_context(nullptr),
       m_egl_resource_context(nullptr),
       m_wl_egl_window(nullptr) {
+  // EGL initialization
+
   m_egl_display = eglGetDisplay((EGLNativeDisplayType)display);
   if (m_egl_display == EGL_NO_DISPLAY) {
     std::cout << "Failed to create egl display" << std::endl;

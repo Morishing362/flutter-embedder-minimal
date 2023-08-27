@@ -1,19 +1,18 @@
-#include <string>
 #include <wayland_display.h>
 
 #include <iostream>
-
+#include <string>
 
 // Wayland display constructor
 WaylandDisplay::WaylandDisplay()
-    : display(nullptr),
-      surface(nullptr),
-      compositor(nullptr),
-      m_xdg_wm_base(nullptr),
-      m_xdg_surface(nullptr) {
-  display = wl_display_connect(nullptr);
+    : m_wl_display(nullptr),
+      m_wl_surface(nullptr),
+      m_wl_compositor(nullptr),
+      m_wl_shell(nullptr),
+      m_wl_shell_suerface(nullptr) {
+  m_wl_display = wl_display_connect(nullptr);
 
-  if (!display) {
+  if (!m_wl_display) {
     std::cout << "Failed to connect display" << std::endl;
     exit(EXIT_FAILURE);
   } else {
@@ -22,25 +21,25 @@ WaylandDisplay::WaylandDisplay()
 }
 
 WaylandDisplay::~WaylandDisplay() {
-  wl_display_disconnect(display);
+  wl_display_disconnect(m_wl_display);
 
   std::cout << "Disconnected from display" << std::endl;
 }
 
 void WaylandDisplay::dispatchRegistryListener() {
-  struct wl_registry *registry = wl_display_get_registry(display);
+  struct wl_registry *registry = wl_display_get_registry(m_wl_display);
   wl_registry_add_listener(registry, &registry_listener, this);
 
   // Sync with backend to get registry information & compositor
-  wl_display_dispatch(display);
+  wl_display_dispatch(m_wl_display);
   // Block until all pending request are processed by the server
-  wl_display_roundtrip(display);
+  wl_display_roundtrip(m_wl_display);
 }
 
 void WaylandDisplay::createSurface() {
-  surface = wl_compositor_create_surface(compositor);
+  m_wl_surface = wl_compositor_create_surface(m_wl_compositor);
 
-  if (surface == nullptr) {
+  if (m_wl_surface == nullptr) {
     std::cout << "Failed to create a surface" << std::endl;
     exit(EXIT_FAILURE);
   } else {
@@ -48,18 +47,15 @@ void WaylandDisplay::createSurface() {
   }
 }
 
-void WaylandDisplay::createXdgSurface() {
-  m_xdg_surface = xdg_wm_base_get_xdg_surface(m_xdg_wm_base, surface);
+void WaylandDisplay::setSurface() {
+  m_wl_shell_suerface = wl_shell_get_shell_surface(m_wl_shell, m_wl_surface);
 
-  if (m_xdg_surface == nullptr) {
-    std::cout << "Failed to create XDG surface" << std::endl;
+  if (m_wl_shell_suerface == nullptr) {
+    std::cout << "Failed to create wayland shell surface" << std::endl;
     exit(EXIT_FAILURE);
   } else {
-    std::cout << "Created XDG surface" << std::endl;
+    std::cout << "Created wayland shell surface" << std::endl;
   }
 
-  xdg_surface_add_listener(m_xdg_surface, &xdgSurfaceListener, nullptr);
-
-  xdg_toplevel_set_title(xdg_surface_get_toplevel(m_xdg_surface), "XDG Sample");
+  wl_shell_surface_set_toplevel(m_wl_shell_suerface);
 }
-

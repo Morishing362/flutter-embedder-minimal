@@ -1,3 +1,4 @@
+#include <egl_shell.h>
 #include <flutter_runner.h>
 #include <wayland_display.h>
 
@@ -16,10 +17,11 @@ int main(int argc, char const *argv[]) {
 
   wayland_display->dispatchRegistryListener();
   wayland_display->createSurface();
-  wayland_display->createXdgSurface();
+  wayland_display->setSurface();
 
-  auto egl_shell = EglShell(wayland_display->display);
-  egl_shell.createEglWindow(wayland_display->surface);
+  auto egl_shell = EglShell(wayland_display->m_wl_display);
+
+  egl_shell.createEglWindow(wayland_display->m_wl_surface);
 
   runFlutter(&egl_shell, argv[1], argv[2]);
 
