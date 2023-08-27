@@ -60,6 +60,6 @@ void WaylandDisplay::createXdgSurface() {
 
   xdg_surface_add_listener(m_xdg_surface, &xdgSurfaceListener, nullptr);
 
-  xdg_toplevel_set_title(xdg_surface_get_toplevel(m_xdg_surface), "EGL Sample");
+  xdg_toplevel_set_title(xdg_surface_get_toplevel(m_xdg_surface), "XDG Sample");
 }
 

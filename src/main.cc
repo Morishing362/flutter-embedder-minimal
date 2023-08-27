@@ -7,9 +7,9 @@
 int main(int argc, char const *argv[]) {
   if (argc < 3) {
     std::cerr << "Error: No Flutter data path provided." << std::endl;
-    std::cerr << "Usage: " << argv[0] << " [flutter_assets path] [icudtl.dat path]"
-              << std::endl;
-    return 1;  // Indicate an error to the operating system
+    std::cerr << "Usage: " << argv[0]
+              << " [flutter_assets path] [icudtl.dat path]" << std::endl;
+    exit(EXIT_SUCCESS);
   }
 
   auto wayland_display = std::make_shared<WaylandDisplay>();
@@ -23,8 +23,8 @@ int main(int argc, char const *argv[]) {
 
   runFlutter(&egl_shell, argv[1], argv[2]);
 
-  while (1) {
-    // the thead running...
+  while (true) {
+    // thead running...
   }
 
   return EXIT_SUCCESS;

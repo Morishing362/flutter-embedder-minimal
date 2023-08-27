@@ -21,8 +21,6 @@ class EglShell {
 
   ~EglShell();
 
-//   void initEgl(wl_display *display);
-
   void createEglWindow(wl_surface *surface);
 };
 

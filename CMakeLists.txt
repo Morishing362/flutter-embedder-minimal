@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(egl-sample)
+project(flutter-embedder-minimal)
 
 # Set C++ standard
 set(
-    CMAKE_CXX_STANDARD_REQUIRED
-    ON
+    CMAKE_CXX_STANDARD_REQUIRED ON
 )
 
 # Find the OpenGL packagee
@@ -34,8 +33,7 @@ add_executable(
 
 # Include directories
 target_include_directories(
-    ${PROJECT_NAME}
-    PRIVATE
+    ${PROJECT_NAME} PRIVATE
         src/flutter
         src/wayland
         third/flutter
@@ -44,8 +42,7 @@ target_include_directories(
 
 # Link the executable to GLFW
 target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE 
+    ${PROJECT_NAME} PRIVATE 
         ${GLES3_LIBRARIS}
         EGL
         wayland-client
