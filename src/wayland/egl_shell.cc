@@ -1,3 +1,4 @@
+#include <constants.h>
 #include <egl_shell.h>
 #include <wayland-client.h>
 #include <wayland-egl.h>
@@ -72,7 +73,8 @@ EglShell::EglShell(wl_display *display)
 EglShell::~EglShell() {}
 
 void EglShell::createEglWindow(wl_surface *surface) {
-  m_wl_egl_window = wl_egl_window_create(surface, 1280, 720);
+  m_wl_egl_window = wl_egl_window_create(surface, K_DEFAULT_WINDOW_WIDTH,
+                                         K_DEFAULT_WINDOW_HIGHT);
   if (m_wl_egl_window == EGL_NO_SURFACE) {
     std::cout << "Failed to create egl window" << std::endl;
     exit(EXIT_FAILURE);

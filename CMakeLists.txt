@@ -36,6 +36,7 @@ target_include_directories(
     ${PROJECT_NAME} PRIVATE
         src/flutter
         src/wayland
+        src/common
         third/flutter
         third/wayland
 )

@@ -1,6 +1,7 @@
 #include <egl_shell.h>
 #include <embedder.h>
 #include <flutter_runner.h>
+#include <constants.h>
 
 #include <iostream>
 #include <string>
@@ -12,8 +13,8 @@ void runFlutter(EglShell *egl_shell, std::string flutter_assets_path,
   FlutterEngineResult result;
   FlutterEngine engine;
   FlutterWindowMetricsEvent fwme = {.struct_size = sizeof(fwme),
-                                    .width = 1280,
-                                    .height = 720,
+                                    .width = K_DEFAULT_WINDOW_WIDTH,
+                                    .height = K_DEFAULT_WINDOW_HIGHT,
                                     .pixel_ratio = 1.0};
 
   flutter_config.type = kOpenGL;
