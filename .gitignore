@@ -1,5 +1,8 @@
-build
-data
-.vscode*
+.cache/
+.vscode/
+build/
+data/
 
 *.so
+compile_commands.json
+
