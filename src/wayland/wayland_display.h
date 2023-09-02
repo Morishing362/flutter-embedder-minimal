@@ -8,12 +8,14 @@
 #include <iostream>
 
 class WaylandDisplay {
- public:
+public:
   struct wl_compositor *m_wl_compositor;
   struct wl_display *m_wl_display;
   struct wl_surface *m_wl_surface;
-  struct wl_shell *m_wl_shell;
-  struct wl_shell_surface *m_wl_shell_suerface;
+  struct xdg_wm_base *m_xdg_wm_base;
+  struct xdg_surface *m_xdg_surface;
+  // struct wl_shell *m_wl_shell;
+  // struct wl_shell_surface *m_wl_shell_suerface;
 
   WaylandDisplay();
 
@@ -38,8 +40,8 @@ static void globalRegistryHandler(void *data, struct wl_registry *registry,
         registry, id, &wl_compositor_interface, version);
   }
 
-  if (strcmp(interface, "wl_shell") == 0) {
-    wayland_display->m_wl_shell = static_cast<struct wl_shell *>(
+  if (strcmp(interface, "xdg_wm_base") == 0) {
+    wayland_display->m_xdg_wm_base = static_cast<struct xdg_wm_base *>(
         wl_registry_bind(registry, id, &xdg_wm_base_interface, version));
   }
 }
@@ -54,4 +56,13 @@ static const struct wl_registry_listener registry_listener = {
     globalRegistryRemover,
 };
 
-#endif  // WAYLAND_DISPLAY_H
+static void xdgSurfaceConfigure(void *data, struct xdg_surface *xdg_surface,
+                                uint32_t serial) {
+  xdg_surface_ack_configure(xdg_surface, serial);
+}
+
+static const struct xdg_surface_listener xdgSurfaceListener = {
+    .configure = xdgSurfaceConfigure,
+};
+
+#endif // WAYLAND_DISPLAY_H

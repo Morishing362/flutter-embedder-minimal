@@ -1,3 +1,4 @@
+#include "xdg-shell-client-protocol.h"
 #include <wayland_display.h>
 
 #include <iostream>
@@ -5,11 +6,8 @@
 
 // Wayland display constructor
 WaylandDisplay::WaylandDisplay()
-    : m_wl_display(nullptr),
-      m_wl_surface(nullptr),
-      m_wl_compositor(nullptr),
-      m_wl_shell(nullptr),
-      m_wl_shell_suerface(nullptr) {
+    : m_wl_display(nullptr), m_wl_surface(nullptr), m_wl_compositor(nullptr),
+      m_xdg_wm_base(nullptr), m_xdg_surface(nullptr) {
   m_wl_display = wl_display_connect(nullptr);
 
   if (!m_wl_display) {
@@ -48,14 +46,15 @@ void WaylandDisplay::createSurface() {
 }
 
 void WaylandDisplay::setSurface() {
-  m_wl_shell_suerface = wl_shell_get_shell_surface(m_wl_shell, m_wl_surface);
-
-  if (m_wl_shell_suerface == nullptr) {
-    std::cout << "Failed to create wayland shell surface" << std::endl;
+  m_xdg_surface= xdg_wm_base_get_xdg_surface(m_xdg_wm_base, m_wl_surface);
+  if (m_xdg_surface == nullptr) {
+    std::cout << "Failed to create xdg surface" << std::endl;
     exit(EXIT_FAILURE);
   } else {
-    std::cout << "Created wayland shell surface" << std::endl;
+    std::cout << "Created xdg surface" << std::endl;
   }
 
-  wl_shell_surface_set_toplevel(m_wl_shell_suerface);
+  xdg_surface_add_listener(m_xdg_surface, &xdgSurfaceListener, nullptr);
+
+  xdg_toplevel_set_title(xdg_surface_get_toplevel(m_xdg_surface), "XDG Sample");
 }
