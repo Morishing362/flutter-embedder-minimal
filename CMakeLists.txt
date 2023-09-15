@@ -7,15 +7,19 @@ set(
     CMAKE_CXX_STANDARD_REQUIRED ON
 )
 
-# Find the OpenGL packagee
-find_library(
-    GLES3 REQUIRED
-)
+if(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
+    link_directories(third/flutter/bin/aarch64)
+elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+    link_directories(third/flutter/bin/x86_64)
+else()
+    message(FATAL_ERROR "Unsupported architecture: ${CMAKE_SYSTEM_PROCESSOR}")
+endif()
+
 
 # Add link directories
-link_directories(
-    third/flutter/bin
-)
+# link_directories(
+#     third/flutter/bin
+# )
 
 # Collect source files
 file(
@@ -44,7 +48,6 @@ target_include_directories(
 # Link the executable to GLFW
 target_link_libraries(
     ${PROJECT_NAME} PRIVATE 
-        ${GLES3_LIBRARIS}
         EGL
         wayland-client
         wayland-egl
