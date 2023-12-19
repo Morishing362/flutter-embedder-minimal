@@ -3,6 +3,5 @@
 build/
 data/
 
-.so
 compile_commands.json
 

@@ -8,18 +8,14 @@ set(
 )
 
 if(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
-    link_directories(third/flutter/bin/aarch64)
+    link_directories(third/flutter/3.3.7/bin/aarch64)
+    set(ENGINE_PATH "third/flutter/3.3.7/bin/aarch64/libflutter_engine.so")
 elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-    link_directories(third/flutter/bin/x86_64)
+    link_directories(third/flutter/3.3.7/bin/x86_64)
+    set(ENGINE_PATH "third/flutter/3.3.7/bin/x86_64/libflutter_engine.so")
 else()
     message(FATAL_ERROR "Unsupported architecture: ${CMAKE_SYSTEM_PROCESSOR}")
 endif()
-
-
-# Add link directories
-# link_directories(
-#     third/flutter/bin
-# )
 
 # Collect source files
 file(
@@ -53,3 +49,6 @@ target_link_libraries(
         wayland-egl
         flutter_engine
 )
+
+install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+install(FILES ${ENGINE_PATH} RUNTIME DESTINATION lib)
