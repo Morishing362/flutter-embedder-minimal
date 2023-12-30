@@ -3,19 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(flutter-embedder-minimal)
 
 # Set C++ standard
-set(
-    CMAKE_CXX_STANDARD_REQUIRED ON
-)
-
-if(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
-    link_directories(third/flutter/3.3.7/bin/aarch64)
-    set(ENGINE_PATH "third/flutter/3.3.7/bin/aarch64/libflutter_engine.so")
-elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-    link_directories(third/flutter/3.3.7/bin/x86_64)
-    set(ENGINE_PATH "third/flutter/3.3.7/bin/x86_64/libflutter_engine.so")
-else()
-    message(FATAL_ERROR "Unsupported architecture: ${CMAKE_SYSTEM_PROCESSOR}")
-endif()
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Collect source files
 file(
@@ -37,7 +25,7 @@ target_include_directories(
         src/flutter
         src/wayland
         src/common
-        third/flutter
+        third/flutter/headers
         third/wayland
 )
 

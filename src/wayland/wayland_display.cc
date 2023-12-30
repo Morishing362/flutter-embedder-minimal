@@ -46,7 +46,7 @@ void WaylandDisplay::createSurface() {
 }
 
 void WaylandDisplay::setSurface() {
-  m_xdg_surface= xdg_wm_base_get_xdg_surface(m_xdg_wm_base, m_wl_surface);
+  m_xdg_surface = xdg_wm_base_get_xdg_surface(m_xdg_wm_base, m_wl_surface);
   if (m_xdg_surface == nullptr) {
     std::cout << "Failed to create xdg surface" << std::endl;
     exit(EXIT_FAILURE);
