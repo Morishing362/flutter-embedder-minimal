@@ -7,7 +7,6 @@
 
 #include <string>
 
-void runFlutter(EglShell *egl_shell, std::string flutter_assets_path,
-                std::string icudtl_path);
+void runFlutter(EglShell *egl_shell, std::string bundle_path);
 
 #endif // FLUTTER_RUNNER_H

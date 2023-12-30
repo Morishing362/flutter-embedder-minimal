@@ -26,8 +26,7 @@ static void _JoinFlutterRect(FlutterRect *rect, FlutterRect additional_rect) {
   rect->bottom = std::max(rect->bottom, additional_rect.bottom);
 }
 
-void runFlutter(EglShell *egl_shell, std::string flutter_assets_path,
-                std::string icudtl_path) {
+void runFlutter(EglShell *egl_shell, std::string bundle_path) {
   FlutterRendererConfig flutter_config = {};
   FlutterProjectArgs args;
   FlutterEngineResult result;
@@ -136,6 +135,9 @@ void runFlutter(EglShell *egl_shell, std::string flutter_assets_path,
       }
     }
   };
+
+  auto flutter_assets_path = bundle_path + "/data/flutter_assets";
+  auto icudtl_path = bundle_path + "/data/icudtl.dat";
 
   args = {
       .struct_size = sizeof(FlutterProjectArgs),
